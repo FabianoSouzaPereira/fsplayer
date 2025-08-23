@@ -7,7 +7,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
+import com.fabianospdev.fsplayer.features.player.presentation.components.PlayerScreenWithViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PlayerActivity : ComponentActivity() {
 
     private var player: ExoPlayer? = null
@@ -16,24 +19,22 @@ class PlayerActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val mediaUrl = intent?.getStringExtra("media_url")
-            ?: "https://storage.googleapis.com/exoplayer-test-media-0/play.mp3"
+            ?: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
 
-        // Inicializa ExoPlayer
         player = ExoPlayer.Builder(this).build().apply {
-            val mediaItem = MediaItem.fromUri(mediaUrl)
-            setMediaItem(mediaItem)
+            setMediaItem(MediaItem.fromUri(mediaUrl))
             prepare()
             playWhenReady = true
         }
 
         setContent {
-            PlayerScreen(player = player!!)
+            PlayerScreenWithViewModel(player = player!!)
         }
     }
 
     override fun onStop() {
         super.onStop()
-        if (isInPictureInPictureMode.not()) {
+        if (!isInPictureInPictureMode) {
             player?.pause()
         }
     }
@@ -51,5 +52,3 @@ class PlayerActivity : ComponentActivity() {
         super.onUserLeaveHint()
     }
 }
-
-

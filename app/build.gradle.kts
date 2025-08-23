@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     id("com.google.dagger.hilt.android")
+    kotlin("kapt") // only to Glide
 }
 
 android {
@@ -50,6 +51,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    /* Ícones estendidos (onde estão Fullscreen e FullscreenExit) */
+    implementation(libs.androidx.material.icons.extended)
     /* HILT */
     implementation(libs.androidx.hilt.common)
     implementation(libs.androidx.room.runtime.android)
@@ -69,6 +72,10 @@ dependencies {
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.ui)
     implementation(libs.androidx.media3.session) // se precisar de integração com notificações de mídia
+    /* Glide */
+    implementation(libs.glide)
+    kapt(libs.glide.compiler) // Glide use only kapt
+    implementation(libs.glide.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
