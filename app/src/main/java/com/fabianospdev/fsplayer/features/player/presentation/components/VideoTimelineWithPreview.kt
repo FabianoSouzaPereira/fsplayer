@@ -24,40 +24,37 @@ import kotlinx.coroutines.withContext
 fun VideoTimelineWithPreview(
     player: ExoPlayer,
     thumbnailsProvider: suspend (Long) -> Bitmap?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onScrubStart: () -> Unit = {},
+    onScrubEnd: () -> Unit = {}
 ) {
     var sliderPosition by remember { mutableStateOf(0f) }
     var dragPosition by remember { mutableStateOf<Float?>(null) }
     var duration by remember { mutableStateOf(1f) }
     var currentThumb by remember { mutableStateOf<Bitmap?>(null) }
 
-    // Atualiza duração quando player fica pronto
+    /* Atualiza duração */
     LaunchedEffect(player) {
         while (duration <= 1f) {
             val d = player.duration
-            if (d > 0 && d != Long.MIN_VALUE) {
-                duration = d.toFloat()
-            }
-            kotlinx.coroutines.delay(300)
+            if (d > 0 && d != Long.MIN_VALUE) duration = d.toFloat()
+            kotlinx.coroutines.delay(200)
         }
     }
 
-    // Atualiza posição enquanto toca (se não estiver arrastando)
+    /* Atualiza posição do player */
     LaunchedEffect(player) {
         while (true) {
-            if (dragPosition == null) {
-                sliderPosition = player.currentPosition.toFloat()
-            }
-            kotlinx.coroutines.delay(500)
+            if (dragPosition == null) sliderPosition = player.currentPosition.toFloat()
+            kotlinx.coroutines.delay(200)
         }
     }
 
-    // Atualiza thumbnail só durante drag
-    LaunchedEffect(dragPosition) {
-        dragPosition?.let { pos ->
-            currentThumb = withContext(Dispatchers.IO) {
-                thumbnailsProvider(pos.toLong())
-            }
+    /* Atualiza thumbnail enquanto arrasta */
+    dragPosition?.let { pos ->
+        LaunchedEffect(pos) {
+            onScrubStart()
+            currentThumb = withContext(Dispatchers.IO) { thumbnailsProvider(pos.toLong()) }
         }
     }
 
@@ -65,6 +62,7 @@ fun VideoTimelineWithPreview(
         Slider(
             value = dragPosition ?: sliderPosition,
             onValueChange = { newPos ->
+                if (dragPosition == null) onScrubStart()
                 dragPosition = newPos
             },
             onValueChangeFinished = {
@@ -73,21 +71,17 @@ fun VideoTimelineWithPreview(
                     sliderPosition = pos
                 }
                 dragPosition = null
+                currentThumb = null
+                onScrubEnd()
             },
             valueRange = 0f..duration
         )
 
         currentThumb?.let { thumb ->
             Box(
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .offset(y = (-70).dp)
+                modifier = Modifier.align(Alignment.TopCenter).offset(y = (-70).dp)
             ) {
-                Image(
-                    bitmap = thumb.asImageBitmap(),
-                    contentDescription = null,
-                    modifier = Modifier.size(120.dp, 70.dp)
-                )
+                Image(thumb.asImageBitmap(), contentDescription = "Thumb", modifier = Modifier.size(120.dp, 70.dp))
             }
         }
     }
