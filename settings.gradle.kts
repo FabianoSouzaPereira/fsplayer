@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Base App"
+rootProject.name = "Fsplayer"
 include(":app")

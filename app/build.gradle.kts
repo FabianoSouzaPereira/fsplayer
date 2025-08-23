@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.baseapp"
+    namespace = "com.fabianospdev.fsplayer"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.baseapp"
+        applicationId = "com.fabianospdev.fsplayer"
         minSdk = 29
         targetSdk = 36
         versionCode = 1
@@ -65,6 +65,10 @@ dependencies {
     implementation(libs.retrofit.converter.gson) // ou .moshi
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
+    /* Exoplayer */
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.media3.session) // se precisar de integração com notificações de mídia
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
