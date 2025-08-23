@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Base App</string>
+    <string name="home">Home</string>
+    <string name="login">Login</string>
+    <string name="settings">Settings</string>
+    <string name="hide_password">Hide Password</string>
+    <string name="show_password">Show Password</string>
+    <string name="home_screen">Home Screen</string>
+    <string name="password_icon">Password Icon</string>
+    <string name="email_email_com">email@email.com</string>
+    <string name="q_nm_44u">Q@nm#44u</string>
+    <string name="try_again">Try Again</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="attempt_limit_reached">Attempt limit reached</string>
+    <string name="please_try_again_later_but_if_the_problem_persists_report_the_problem_to_your_service_provider">Please try again later; but if the problem persists, report the problem to your service provider.</string>
+    <string name="the_problem_reported_was">The problem reported was:\n%1$s</string>
+    <string name="something_wrong">Something wrong!!</string>
+    <string name="splash">Splash</string>
+    <string name="server_uri">Server Uri</string>
+    <string name="maintenance_mode">Maintenance Mode</string>
+    <string name="firebase_mode">Firebase Mode</string>
+    <string name="enter_server_address">Enter server address</string>
+    <string name="server_port">Server Port</string>
+    <string name="_0000">0000</string>
+    <string name="server_user">Server User</string>
+    <string name="enter_server_user">Enter server user</string>
+    <string name="server_password">Server Password</string>
+    <string name="enter_server_password">Enter server password</string>
+    <string name="analytics_enabled">Analytics Enabled</string>
+    <string name="chat_enabled">Chat Enabled</string>
+    <string name="dark_mode">Dark Mode</string>
+</resources>

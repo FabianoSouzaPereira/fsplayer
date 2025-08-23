@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Buttons -->
+    <dimen name="button_border_size">2.dp</dimen>
+    <dimen name="button_rounded_corner_shape">16.dp</dimen>
+    <dimen name="button_padding">16.dp</dimen>
+    <dimen name="button_width_small">100.dp</dimen>
+    <dimen name="button_width_medium">300.dp</dimen>
+
+    <!-- TextField -->
+    <dimen name="textfield_border_size">2.dp</dimen>
+    <dimen name="textfield_rounded_corner_shape">16.dp</dimen>
+    <dimen name="title_font_text_size">26.sp</dimen>
+    <dimen name="minium_space_betwing_elements">3.dp</dimen>
+
+    <!-- Alert Dialog -->
+    <dimen name="alert_clip_rounded_corner_shape">22.dp</dimen>
+    <dimen name="alert_border_rounded_corner_shape">22.dp</dimen>
+    <dimen name="alert_border_verticalArrangement">20.dp</dimen>
+    <dimen name="alert_border_border_stroke">4.dp</dimen>
+    <dimen name="alert_tonal_elevation">5.dp</dimen>
+</resources>
