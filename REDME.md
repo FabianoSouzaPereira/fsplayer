@@ -63,3 +63,19 @@ Desvantagens:
 - API mais nova, algumas classes são @UnstableApi – precisa usar @OptIn(UnstableApi::class) para certas funcionalidades, como AspectRatioFrameLayout.
 - Menos exemplos/documentação comparado ao ExoPlayer clássico, embora a maioria do código seja muito parecido.
 - Migração de projetos antigos pode exigir pequenas mudanças, principalmente nas constantes e pacotes (RESIZE_MODE, PlayerView, etc.).
+
+## Exoplayer no ViewModel
+
+O ExoPlayer vive dentro do ViewModel, ele vira o único ponto de verdade (single source of truth) para manipular o player.
+
+### Por que isso é bom?
+
+- Ciclo de vida mais limpo
+   O ViewModel sobrevive a rotação, mudanças de configuração etc. Se o player estivesse só no Activity, você perderia o estado a cada recriação.
+
+- UI desacoplada da lógica
+   O Activity/Composable só exibe UI e manda eventos pro ViewModel.
+   Toda lógica de play/pause, seek, fullscreen, pip, volume, legendas... fica centralizada no ViewModel.
+
+- Mais testável
+   Você pode testar a lógica do ViewModel isolada da UI.

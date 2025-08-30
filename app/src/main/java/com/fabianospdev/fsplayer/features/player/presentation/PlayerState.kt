@@ -1,4 +1,10 @@
 package com.fabianospdev.fsplayer.features.player.presentation
 
-class PlayerState {
-}
+data class PlayerState(
+    val isPlaying: Boolean = false,
+    val isFullscreen: Boolean = false,
+    val controlsVisible: Boolean = true,
+    val showTimeline: Boolean = true,
+    val isSeeking: Boolean = false
+)
+
