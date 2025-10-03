@@ -5,6 +5,7 @@ data class PlayerState(
     val isFullscreen: Boolean = false,
     val controlsVisible: Boolean = true,
     val showTimeline: Boolean = true,
-    val isSeeking: Boolean = false
+    val isSeeking: Boolean = false,
+    val isShowingThumbnail: Boolean = false
 )
 

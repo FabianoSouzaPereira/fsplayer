@@ -120,14 +120,16 @@ fun HomeContent(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(
-                    text = "Home Screen",
-                    fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-                    modifier = Modifier.padding(end = 8.dp)
-                )
+                Column {
+                    Text(
+                        text = "Home Screen",
+                        fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
 
-                Button(onClick = onOpenPlayer) {
-                    Text("Abrir Player")
+                    Button(onClick = onOpenPlayer) {
+                        Text("Abrir Player")
+                    }
                 }
             }
         }

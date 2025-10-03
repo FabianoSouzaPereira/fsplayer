@@ -95,7 +95,7 @@ class PlayerViewModel @Inject constructor(
 
     /** Inicia scrubbing na timeline */
     fun startScrubbing() {
-        _state.value = _state.value.copy(isSeeking = true, controlsVisible = true, showTimeline = true)
+        _state.value = _state.value.copy(isSeeking = true, controlsVisible = false, showTimeline = true)
         hideJob?.cancel()
     }
 
@@ -105,36 +105,53 @@ class PlayerViewModel @Inject constructor(
         showControlsTemporarily()
     }
 
-    /** Mostra controles temporariamente por 3s */
+    /** Mostra controles temporariamente por 3s, mas só conta se não estiver arrastando */
     private fun showControlsTemporarily() {
         _state.value = _state.value.copy(controlsVisible = true, showTimeline = true)
         hideJob?.cancel()
         hideJob = scope.launch {
-            delay(3000)
-            if (!_state.value.isSeeking) {
+            var elapsed = 0L
+            val interval = 200L
+            while (elapsed < 3000L) {
+                if (!_state.value.isSeeking && !_state.value.isShowingThumbnail) {
+                    elapsed += interval
+                }
+                delay(interval)
+            }
+            if (!_state.value.isSeeking && !_state.value.isShowingThumbnail) {
+                _state.value = _state.value.copy(isShowingThumbnail = false)
                 _state.value = _state.value.copy(controlsVisible = false, showTimeline = false)
             }
         }
     }
 
+
     /** Gera thumbnails usando Glide */
     suspend fun getThumbnail(positionMs: Long): Bitmap? {
-        thumbnailCache[positionMs]?.let { return it }
+        val key = (positionMs / 1000) * 1000 // arredonda para 1s
+        thumbnailCache[key]?.let { return it }
 
         return try {
             val futureTarget = Glide.with(appContext)
                 .asBitmap()
                 .load(videoUrl)
-                .frame(positionMs * 1000) // micros
+                .frame(positionMs * 1000L) // micros
                 .submit()
 
             val bmp = futureTarget.get()
-            thumbnailCache[positionMs] = bmp
+            thumbnailCache[key] = bmp
             bmp
         } catch (e: Exception) {
+            e.printStackTrace()
             null
         }
     }
+
+    fun setThumbnailShowing(showing: Boolean) {
+        _state.value = _state.value.copy(isShowingThumbnail = showing)
+    }
+
+
 
     /** Libera recursos ao destruir ViewModel */
     override fun onCleared() {

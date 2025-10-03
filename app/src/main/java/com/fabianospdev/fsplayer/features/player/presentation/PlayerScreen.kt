@@ -15,7 +15,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FastForward
 import androidx.compose.material.icons.filled.FastRewind
@@ -25,6 +27,8 @@ import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -59,7 +63,7 @@ fun PlayerScreen(
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        // 🎥 Container do vídeo
+        /* 🎥 Container do vídeo */
         Box(
             modifier = if (state.isFullscreen) {
                 Modifier.fillMaxSize()
@@ -69,6 +73,8 @@ fun PlayerScreen(
                     .aspectRatio(16f / 9f)
             }
         ) {
+
+            /** Player */
             AndroidView(
                 factory = {
                     playerView.apply { useController = false }
@@ -84,11 +90,14 @@ fun PlayerScreen(
                     .pointerInput(Unit) { detectTapGestures { viewModel.toggleControls() } }
             )
 
-            // Timeline
+            /** Timeline */
             if (state.showTimeline) {
                 VideoTimelineWithPreview(
                     player = player,
                     thumbnailsProvider = thumbnailsProvider,
+                    onScrubStart = { viewModel.startScrubbing() },
+                    onScrubEnd = { viewModel.stopScrubbing() },
+                    onThumbnailShowing = { showing -> viewModel.setThumbnailShowing(showing) },
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -96,7 +105,7 @@ fun PlayerScreen(
                 )
             }
 
-            // Controles
+            /** Controles */
             if (state.controlsVisible) {
                 IconButton(
                     onClick = { viewModel.toggleFullscreen(context as? Activity) },
@@ -138,15 +147,34 @@ fun PlayerScreen(
             }
         }
 
-        // Conteúdo abaixo do player (fora do fullscreen)
+        /** Conteúdo abaixo do player (fora do fullscreen) */
         if (!state.isFullscreen) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Black)
+                    .background(MaterialTheme.colorScheme.primaryContainer)
             ) {
-                // Placeholder para título, descrição, comentários etc.
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 40.dp)
+                        .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        "Vamos procurar novas músicas ?",
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                        modifier = Modifier.padding(vertical = 16.dp)
+                    )
+                    Text(
+                        "Procure aonde quiser!",
+                        fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                        modifier = Modifier.padding(vertical = 16.dp)
+                    )
+                }
             }
         }
+
     }
 }

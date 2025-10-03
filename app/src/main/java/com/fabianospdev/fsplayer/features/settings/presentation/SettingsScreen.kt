@@ -9,6 +9,6 @@ import androidx.compose.ui.Modifier
 @Composable
 fun SettingsScreen() {
     Column(modifier = Modifier.fillMaxSize()) {
-        Text("Pure Boost")
+        Text("FsPlayer")
     }
 }
