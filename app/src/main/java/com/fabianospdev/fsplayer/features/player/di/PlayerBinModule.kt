@@ -10,6 +10,9 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
+import com.fabianospdev.fsplayer.features.player.data.repository.VideoRepositoryImpl
+import com.fabianospdev.fsplayer.features.player.domain.repository.VideoRepository
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
