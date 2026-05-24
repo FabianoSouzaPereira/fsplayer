@@ -72,6 +72,8 @@ dependencies {
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.ui)
     implementation(libs.androidx.media3.session) // se precisar de integração com notificações de mídia
+    implementation(libs.androidx.media3.exoplayer.hls)
+    implementation(libs.androidx.media3.exoplayer.dash)
     /* Glide */
     implementation(libs.glide)
     kapt(libs.glide.compiler) // Glide use only kapt
