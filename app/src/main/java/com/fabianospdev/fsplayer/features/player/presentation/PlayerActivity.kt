@@ -15,7 +15,7 @@ class PlayerActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val mediaUrl = intent?.getStringExtra("media_url")
-            ?: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+            ?: "https://storage.googleapis.com/exoplayer-test-media-0/BigBuckBunny_320x180.mp4"
 
         setContent {
             PlayerScreenWithViewModel(mediaUrl = mediaUrl)

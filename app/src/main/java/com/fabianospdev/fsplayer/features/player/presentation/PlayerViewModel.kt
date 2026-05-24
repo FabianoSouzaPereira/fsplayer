@@ -7,6 +7,8 @@ import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.common.Player
+import androidx.media3.common.PlaybackException
 import com.bumptech.glide.Glide
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -21,10 +23,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlayerViewModel @Inject constructor(
-    @ApplicationContext private val appContext: Context
+    @ApplicationContext private val appContext: Context,
+    val player: ExoPlayer
 ) : ViewModel() {
 
-    // ✅ Estado do player
+    // Estado do player
     private val _state = MutableStateFlow(PlayerState())
     val state: StateFlow<PlayerState> = _state
 
@@ -34,12 +37,6 @@ class PlayerViewModel @Inject constructor(
     private val thumbnailCache = mutableMapOf<Long, Bitmap?>()
     var videoUrl: String = ""
     var lastPosition: Long = 0L
-
-    val player: ExoPlayer by lazy {
-        ExoPlayer.Builder(appContext).build().apply {
-            playWhenReady = false
-        }
-    }
 
     init {
         showControlsTemporarily()
