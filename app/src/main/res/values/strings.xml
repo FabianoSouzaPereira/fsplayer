@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Base App</string>
+    <string name="app_name">Fsplayer</string>
     <string name="home">Home</string>
     <string name="login">Login</string>
     <string name="settings">Settings</string>
