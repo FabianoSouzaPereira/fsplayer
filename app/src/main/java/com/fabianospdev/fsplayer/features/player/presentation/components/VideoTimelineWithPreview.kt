@@ -4,10 +4,15 @@ import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -29,6 +34,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoTimelineWithPreview(
     player: ExoPlayer,
@@ -98,6 +104,36 @@ fun VideoTimelineWithPreview(
                 activeTrackColor = Color.Red,
                 inactiveTrackColor = Color.LightGray
             ),
+            thumb = {
+                Box(
+                    modifier = Modifier
+                        .offset(y = 2.dp)
+                        .size(14.dp)
+                        .clip(CircleShape)
+                        . background(Color.Red)
+                )
+            },
+            track = { sliderState ->
+                val fraction = (
+                        (sliderState.value - sliderState.valueRange.start) /
+                        (sliderState.valueRange.endInclusive - sliderState.valueRange.start)
+                ).coerceIn(0f, 1f)
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(6.dp)
+                        .clip(RoundedCornerShape(50))
+                        .background(Color.LightGray)
+                ){
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(fraction)
+                            .fillMaxHeight()
+                            .background(Color.Red)
+                    )
+                }
+            },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
         )
